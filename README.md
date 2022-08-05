@@ -1,4 +1,4 @@
-# vinyl-lib
+# vinylib
 
 ## Project setup
 ```
