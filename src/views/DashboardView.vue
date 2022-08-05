@@ -105,7 +105,7 @@
   </div>
 </template>
 
-<script setup>
+<script>
 import {
   Disclosure,
   DisclosureButton,
@@ -117,8 +117,33 @@ import {
 } from "@headlessui/vue";
 import { MenuIcon, XIcon, UserIcon } from "@heroicons/vue/outline";
 
-const user = {
-  name: "Tom Cook",
-  email: "tom@example.com",
+export default {
+  name: "DashboardView",
+  components: {
+    Disclosure,
+    DisclosureButton,
+    DisclosurePanel,
+    Menu,
+    MenuButton,
+    MenuItem,
+    MenuItems,
+    MenuIcon,
+    XIcon,
+    UserIcon,
+  },
+  data() {
+    return {
+      user: {
+        name: "Tom Cook",
+        email: "tom@example.com",
+      },
+    };
+  },
+  created() {
+    // If token is not set, redirect to login
+    if (!this.$store.state.token) {
+      this.$router.push("/login");
+    }
+  },
 };
 </script>

@@ -1,25 +1,36 @@
 <template>
+  <CustomLoader :show="isLoading" />
   <div
     class="bg-white min-h-full flex h-screen items-center justify-center py-12 px-4 sm:px-6 lg:px-8"
   >
     <div class="m-auto max-w-md w-full space-y-8">
       <div>
-        <img
-          class="mx-auto h-12 w-auto"
-          src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-          alt="logo"
-        />
+        <div>
+          <img
+            class="mx-auto h-20 w-auto"
+            :src="require('../assets/logo.svg')"
+            alt="logo"
+          />
+        </div>
         <h1 class="mt-6 text-center text-4xl font-extrabold text-black">
           Connexion
         </h1>
       </div>
-      <form class="mt-8 space-y-6" action="#" method="POST">
+
+      <div :hidden="!error">
+        <p class="text-center text-red-600">
+          {{ error }}
+        </p>
+      </div>
+
+      <form class="mt-8 space-y-6" @submit="login" action="#" method="POST">
         <input type="hidden" name="remember" value="true" />
         <div class="rounded-md shadow-sm -space-y-px">
           <div>
             <label for="email" class="sr-only">Adresse email</label>
             <input
               id="email"
+              v-model="email"
               name="email"
               type="email"
               required=""
@@ -31,6 +42,7 @@
             <label for="password" class="sr-only">Mot de passe</label>
             <input
               id="password"
+              v-model="password"
               name="password"
               type="password"
               required=""
@@ -39,7 +51,6 @@
             />
           </div>
         </div>
-
         <div>
           <button
             type="submit"
@@ -52,3 +63,30 @@
     </div>
   </div>
 </template>
+
+<script>
+import CustomLoader from "@/components/CustomLoader";
+export default {
+  name: "LoginView",
+  components: { CustomLoader },
+  data() {
+    return {
+      email: "",
+      password: "",
+      error: null,
+      isLoading: false,
+    };
+  },
+  methods: {
+    login(e) {
+      console.log(this.email, this.password);
+
+      this.isLoading = true;
+
+      // this.error = "Adresse email ou mot de passe incorrect";
+
+      e.preventDefault();
+    },
+  },
+};
+</script>

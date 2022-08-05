@@ -1,19 +1,54 @@
 <template>
-  <div class="loader">
-    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M15 13l-3 3m0 0l-3-3m3 3V8m0 13a9 9 0 110-18 9 9 0 010 18z" />
-    </svg>
+  <div :class="show ? 'block' : 'hidden'">
+    <div
+      class="absolute fixed h-screen w-screen flex items-center justify-center z-10 bg-white"
+      :hidden="!show"
+    >
+      <div>
+        <div class="flex">
+          <img
+            class="h-24 m-auto my-6"
+            :src="require('../assets/logo.svg')"
+            alt="loader"
+          />
+        </div>
+        <div class="text-center">
+          <div class="mt-4 mb-2 font-bold flex justify-center">
+            <div class="mr-2">Chargement en cours</div>
+            <div class="flex">
+              <div class="animate-bounce circle-1 mr-0.5">.</div>
+              <div class="animate-bounce circle-2 mr-0.5">.</div>
+              <div class="animate-bounce circle-3">.</div>
+            </div>
+          </div>
+          <div class="text-gray-500">
+            Cela peut prendre quelques secondes, ne fermez pas cette page.
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
+
+<style scoped>
+.circle-1 {
+  animation-delay: 0.1s;
+}
+.circle-2 {
+  animation-delay: 0.2s;
+}
+.circle-3 {
+  animation-delay: 0.3s;
+}
+</style>
 
 <script>
 export default {
   name: "CustomLoader",
   props: {
-    content: String,
-    isHidden: {
+    show: {
       type: Boolean,
-      default: true,
+      default: false,
     },
   },
 };
