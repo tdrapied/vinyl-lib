@@ -140,10 +140,12 @@ export default {
     };
   },
   created() {
-    // If token is not set, redirect to login
-    if (!this.$store.state.token) {
-      this.$router.push("/login");
-    }
+    // If user is not connected, redirect to login
+    // TODO: Call /auth/me
+    console.log("wait");
+
+    this.$router.push("/login");
+    //this.$store.commit("disableLoading");
   },
 };
 </script>

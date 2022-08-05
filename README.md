@@ -1,21 +1,27 @@
 # vinylib
 
-## Project setup
-```
-npm install
+## Installation
+```bash
+$ npm install
 ```
 
-### Compiles and hot-reloads for development
+## Before you start
+At the root of the project, execute the following commands:
+```bash
+cp .env.example .env
 ```
+
+## Running the app
+```bash
 npm run serve
 ```
 
-### Compiles and minifies for production
+## Compiles and minifies for production
 ```
 npm run build
 ```
 
-### Lints and fixes files
+## Lints and fixes files
 ```
 npm run lint
 ```

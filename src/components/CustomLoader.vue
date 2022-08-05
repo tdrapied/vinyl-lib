@@ -1,8 +1,8 @@
 <template>
-  <div :class="show ? 'block' : 'hidden'">
+  <div :class="this.$store.state.isLoading ? 'block' : 'hidden'">
     <div
       class="absolute fixed h-screen w-screen flex items-center justify-center z-10 bg-white"
-      :hidden="!show"
+      :hidden="!this.$store.state.isLoading"
     >
       <div>
         <div class="flex">
@@ -45,11 +45,5 @@
 <script>
 export default {
   name: "CustomLoader",
-  props: {
-    show: {
-      type: Boolean,
-      default: false,
-    },
-  },
 };
 </script>

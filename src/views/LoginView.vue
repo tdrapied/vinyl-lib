@@ -1,5 +1,5 @@
 <template>
-  <CustomLoader :show="isLoading" />
+  <CustomLoader />
   <div
     class="bg-white min-h-full flex h-screen items-center justify-center py-12 px-4 sm:px-6 lg:px-8"
   >
@@ -66,6 +66,8 @@
 
 <script>
 import CustomLoader from "@/components/CustomLoader";
+import { HTTP } from "@/config/http-common";
+
 export default {
   name: "LoginView",
   components: { CustomLoader },
@@ -74,19 +76,37 @@ export default {
       email: "",
       password: "",
       error: null,
-      isLoading: false,
     };
   },
   methods: {
     login(e) {
-      console.log(this.email, this.password);
+      this.$store.commit("enableLoading");
 
-      this.isLoading = true;
+      // Remove focus from currently active element
+      document.activeElement?.blur();
 
-      // this.error = "Adresse email ou mot de passe incorrect";
+      HTTP.post(`auth/login`, {
+        email: this.email,
+        password: this.password,
+      })
+        .then(() => {
+          this.$router.push("/");
+        })
+        .catch((e) => {
+          if (e.response.status === 401) {
+            this.error = "Adresse email ou mot de passe incorrect.";
+          } else {
+            this.error =
+              "Désolé, une erreur est survenue. Veuillez réessayer plus tard.";
+          }
+          this.$store.commit("disableLoading");
+        });
 
       e.preventDefault();
     },
+  },
+  created() {
+    this.$store.commit("disableLoading");
   },
 };
 </script>
