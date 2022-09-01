@@ -8,12 +8,13 @@
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
           <div class="flex items-center">
-            <div class="flex-shrink-0">
+            <div class="flex items-center justify-between flex-shrink-0">
               <img
-                class="h-8 w-8"
-                src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
+                class="h-10 w-10"
+                :src="require('../assets/logo.svg')"
                 alt="logo"
               />
+              <div class="font-bold ml-4 text-lg">Vinylib</div>
             </div>
           </div>
           <div class="hidden md:block">
@@ -116,6 +117,7 @@ import {
   MenuItems,
 } from "@headlessui/vue";
 import { MenuIcon, XIcon, UserIcon } from "@heroicons/vue/outline";
+import Api from "@/services/Api";
 
 export default {
   name: "DashboardView",
@@ -134,18 +136,24 @@ export default {
   data() {
     return {
       user: {
-        name: "Tom Cook",
-        email: "tom@example.com",
+        name: String,
+        email: String,
       },
     };
   },
-  created() {
-    // If user is not connected, redirect to login
-    // TODO: Call /auth/me
-    console.log("wait");
+  async created() {
+    this.$store.commit("enableLoading");
 
-    this.$router.push("/login");
-    //this.$store.commit("disableLoading");
+    try {
+      const user = await Api.me();
+      this.user.email = user.email;
+      this.user.name = `${user.firstName} ${user.lastName}`;
+
+      this.$store.commit("disableLoading");
+    } catch (e) {
+      // If user is not connected > redirect to login
+      this.$router.push("/login");
+    }
   },
 };
 </script>

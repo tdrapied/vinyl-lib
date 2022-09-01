@@ -67,6 +67,7 @@
 <script>
 import CustomLoader from "@/components/CustomLoader";
 import { HTTP } from "@/config/http-common";
+import Api from "@/services/Api";
 
 export default {
   name: "LoginView",
@@ -105,8 +106,14 @@ export default {
       e.preventDefault();
     },
   },
-  created() {
-    this.$store.commit("disableLoading");
+  async created() {
+    try {
+      // If user is already connected > redirect to dashboard
+      await Api.me();
+      this.$router.push("/");
+    } catch (e) {
+      this.$store.commit("disableLoading");
+    }
   },
 };
 </script>
