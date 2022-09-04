@@ -12,7 +12,7 @@
             alt="logo"
           />
         </div>
-        <h1 class="mt-6 text-center text-4xl font-extrabold text-black">
+        <h1 class="mt-6 text-center text-4xl font-bold text-black">
           Connexion
         </h1>
       </div>
@@ -81,8 +81,6 @@ export default {
   },
   methods: {
     login(e) {
-      this.$store.commit("enableLoading");
-
       // Remove focus from currently active element
       document.activeElement?.blur();
 
