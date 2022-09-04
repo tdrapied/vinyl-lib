@@ -10,4 +10,10 @@ export default {
         throw err;
       });
   },
+
+  async logout() {
+    return HTTP.get("/auth/logout").catch(() => {
+      // Do nothing
+    });
+  },
 };

@@ -41,9 +41,12 @@
                   class="origin-top-right absolute right-0 mt-2 w-48 rounded-md py-1 bg-white border border-gray-300 focus:outline-none"
                 >
                   <MenuItem>
-                    <a href="#" class="block px-4 py-2 text-sm text-gray-700">
+                    <router-link
+                      to="/logout"
+                      class="block px-4 py-2 text-sm text-gray-700"
+                    >
                       Se déconnecter
-                    </a>
+                    </router-link>
                   </MenuItem>
                 </MenuItems>
               </Menu>
