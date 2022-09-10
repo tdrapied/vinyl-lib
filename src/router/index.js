@@ -1,12 +1,21 @@
 import { createRouter, createWebHistory } from "vue-router";
-import DashboardView from "../views/DashboardView";
+import VinylList from "../views/VinylList";
 import Api from "../services/Api";
 
 const routes = [
   {
     path: "/",
-    name: "dashboard",
-    component: DashboardView,
+    redirect: "/vinyls",
+  },
+  {
+    path: "/vinyls",
+    name: "home",
+    component: VinylList,
+  },
+  {
+    path: "/vinyls/create",
+    name: "vinyl-create",
+    component: () => import("../views/VinylForm"),
   },
   {
     path: "/login",
@@ -22,6 +31,11 @@ const routes = [
         next((vm) => vm.$router.push("/login"));
       },
     },
+  },
+  {
+    path: "/:catchAll(.*)",
+    name: "not-found",
+    component: () => import("../views/NotFoundView"),
   },
 ];
 

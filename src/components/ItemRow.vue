@@ -43,7 +43,7 @@ import "moment/locale/fr";
 moment.locale("fr");
 
 export default {
-  name: "ListRow",
+  name: "ItemRow",
   components: {
     DotsVerticalIcon,
   },

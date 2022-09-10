@@ -1,4 +1,5 @@
 <template>
+  <CustomLoader />
   <div
     class="bg-white min-h-full flex h-screen items-center justify-center py-12 px-4 sm:px-6 lg:px-8"
   >
@@ -64,11 +65,15 @@
 </template>
 
 <script>
+import CustomLoader from "@/components/CustomLoader";
 import { HTTP } from "@/config/http-common";
 import Api from "@/services/Api";
 
 export default {
   name: "LoginView",
+  components: {
+    CustomLoader,
+  },
   data() {
     return {
       email: "",
@@ -86,7 +91,7 @@ export default {
         password: this.password,
       })
         .then(() => {
-          this.$router.push("/");
+          this.$router.push({ name: "home" });
         })
         .catch((e) => {
           if (e.response.status === 401) {
@@ -103,9 +108,9 @@ export default {
   },
   async created() {
     try {
-      // If user is already connected > redirect to dashboard
+      // If user is already connected > redirect to home
       await Api.me();
-      this.$router.push("/");
+      this.$router.push({ name: "home" });
     } catch (e) {
       this.$store.commit("disableLoading");
     }
