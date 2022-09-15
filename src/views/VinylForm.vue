@@ -193,8 +193,8 @@ export default {
         const res = await HTTP.post("/vinyls", {
           name: this.name,
           artist: this.artist,
-          releaseDate: this.releaseDate ? this.releaseDate?.length > 1 : null,
-          description: this.description ? this.description?.length > 1 : null,
+          releaseDate: this.releaseDate?.length > 1 ? this.releaseDate : null,
+          description: this.description?.length > 1 ? this.description : null,
         });
 
         if (res.status !== 201) {

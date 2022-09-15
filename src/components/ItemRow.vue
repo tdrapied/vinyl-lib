@@ -20,7 +20,7 @@
       </div>
     </td>
     <td class="hidden sm:table-cell">
-      <div>{{ releaseDate }}</div>
+      <div>{{ vinyl.releaseDate }}</div>
     </td>
     <td class="hidden lg:table-cell">
       <div>{{ createdAt }}</div>
@@ -52,12 +52,6 @@ export default {
     vinyl: {},
   },
   computed: {
-    releaseDate: function () {
-      if (this.vinyl.releaseDate) {
-        return moment(this.vinyl.releaseDate).format("YYYY");
-      }
-      return "";
-    },
     createdAt: function () {
       if (this.vinyl.createdAt) {
         return moment(this.vinyl.createdAt).fromNow();
