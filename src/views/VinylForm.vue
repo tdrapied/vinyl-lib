@@ -3,16 +3,14 @@
   <DashboardBase>
     <header>
       <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-        <div class="relative">
+        <div class="flex justify-between items-center">
           <h1 class="text-4xl font-bold text-black py-4">Ajouter un vinyle</h1>
-          <div class="absolute top-0 right-0">
-            <button
-              type="submit"
-              class="inline-flex items-center justify-center w-16 h-16 text-white bg-primary rounded-full"
-            >
-              <QrcodeIcon class="w-10 h-10" />
-            </button>
-          </div>
+          <button
+            type="submit"
+            class="inline-flex items-center justify-center w-14 h-14 text-white bg-primary rounded-full"
+          >
+            <QrcodeIcon class="w-8 h-8" />
+          </button>
         </div>
       </div>
     </header>

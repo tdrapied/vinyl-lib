@@ -27,9 +27,13 @@
     </td>
     <td>
       <div>
-        <a href="#">
+        <button
+          type="button"
+          class="focus:outline-none"
+          @click="showModal(vinyl)"
+        >
           <DotsVerticalIcon class="h-6 w-6" />
-        </a>
+        </button>
       </div>
     </td>
   </tr>
@@ -48,8 +52,18 @@ export default {
     DotsVerticalIcon,
   },
   props: {
-    number: null,
-    vinyl: {},
+    number: {
+      type: Number,
+      default: null,
+    },
+    vinyl: {
+      type: Object,
+      default: () => ({}),
+    },
+    showModal: {
+      type: Function,
+      default: () => {},
+    },
   },
   computed: {
     createdAt: function () {

@@ -18,6 +18,11 @@ const routes = [
     component: () => import("../views/VinylForm"),
   },
   {
+    path: "/vinyls/:id",
+    name: "vinyl-detail",
+    component: () => import("../views/VinylDetail"),
+  },
+  {
     path: "/login",
     name: "login",
     component: () => import("../views/LoginView"),
@@ -33,7 +38,7 @@ const routes = [
     },
   },
   {
-    path: "/:catchAll(.*)",
+    path: "/:pathMatch(.*)*",
     name: "not-found",
     component: () => import("../views/NotFoundView"),
   },

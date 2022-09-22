@@ -1,5 +1,10 @@
 <template>
   <CustomLoader />
+  <VinylActionModal
+    :vinyl="modalVinyl"
+    :isOpen="modalIsOpen"
+    :close="closeModal"
+  />
   <DashboardBase>
     <header>
       <div class="max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
@@ -45,6 +50,7 @@
                 :key="item.id"
                 :number="index + 1"
                 :vinyl="item"
+                :showModal="openModal"
               />
             </tbody>
           </table>
@@ -77,18 +83,22 @@ import DashboardBase from "@/components/DashboardBase";
 import ItemRow from "@/components/ItemRow";
 import { PlusIcon } from "@heroicons/vue/outline";
 import { HTTP } from "@/config/http-common";
+import VinylActionModal from "@/components/VinylActionModal";
 
 export default {
   name: "VinylList",
   components: {
     CustomLoader,
     DashboardBase,
+    VinylActionModal,
     ItemRow,
     PlusIcon,
   },
   data() {
     return {
       items: [],
+      modalIsOpen: false,
+      modalVinyl: {},
     };
   },
   computed: {
@@ -101,6 +111,15 @@ export default {
         default:
           return `${this.items.length} vinyles enregistrés`;
       }
+    },
+  },
+  methods: {
+    openModal(vinyl) {
+      this.modalVinyl = vinyl;
+      this.modalIsOpen = true;
+    },
+    closeModal() {
+      this.modalIsOpen = false;
     },
   },
   async mounted() {
