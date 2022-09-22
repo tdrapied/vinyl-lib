@@ -26,13 +26,13 @@
         <InformationCircleIcon class="h-7 w-7" />
         <div class="pl-4">Détails</div>
       </router-link>
-      <button
-        type="button"
-        class="mt-2 px-4 py-2 font-medium flex items-center focus:outline-none"
+      <router-link
+        :to="{ name: 'vinyl-edit', params: { id: vinyl.id } }"
+        class="mb-2 px-4 py-2 font-medium flex items-center focus:outline-none"
       >
         <PencilAltIcon class="h-7 w-7" />
         <div class="pl-4">Modifier</div>
-      </button>
+      </router-link>
       <div class="mt-2">
         <button
           v-if="!wantDelete"

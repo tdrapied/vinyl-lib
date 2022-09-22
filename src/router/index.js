@@ -23,6 +23,11 @@ const routes = [
     component: () => import("../views/VinylDetail"),
   },
   {
+    path: "/vinyls/:id/edit",
+    name: "vinyl-edit",
+    component: () => import("../views/VinylForm"),
+  },
+  {
     path: "/login",
     name: "login",
     component: () => import("../views/LoginView"),
