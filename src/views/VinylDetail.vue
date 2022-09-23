@@ -4,6 +4,7 @@
     :vinyl="vinyl"
     :isOpen="modalIsOpen"
     :close="closeModal"
+    :vinylIsDelete="vinylIsDelete"
     :showDetailButton="false"
   />
   <DashboardBase>
@@ -83,6 +84,9 @@ export default {
     },
     closeModal() {
       this.modalIsOpen = false;
+    },
+    vinylIsDelete() {
+      this.$router.push({ name: "home" });
     },
   },
   async created() {

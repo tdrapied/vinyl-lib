@@ -4,6 +4,7 @@
     :vinyl="modalVinyl"
     :isOpen="modalIsOpen"
     :close="closeModal"
+    :vinylIsDelete="vinylIsDelete"
   />
   <DashboardBase>
     <header>
@@ -120,6 +121,13 @@ export default {
     },
     closeModal() {
       this.modalIsOpen = false;
+    },
+    vinylIsDelete(vinylId) {
+      // Remove the vinyl from the list
+      this.items = this.items.filter((item) => item.id !== vinylId);
+
+      this.closeModal();
+      this.$store.commit("disableLoading");
     },
   },
   async mounted() {

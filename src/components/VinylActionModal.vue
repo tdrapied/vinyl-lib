@@ -45,7 +45,6 @@
         </button>
         <div v-if="wantDelete" class="flex">
           <button
-            v-if="wantDelete"
             type="button"
             class="px-4 py-2 font-medium flex items-center focus:outline-none"
             @click="wantDelete = false"
@@ -54,14 +53,18 @@
             <div class="pl-4">Non, ne rien faire</div>
           </button>
           <button
-            v-if="wantDelete"
             type="button"
             class="text-red-600 px-4 py-2 font-medium flex items-center focus:outline-none"
+            @click="deleteVinyl"
           >
             <TrashIcon class="h-7 w-7" />
             <div class="pl-4">Oui, supprimer</div>
           </button>
         </div>
+        <p v-if="failedDelete" class="mt-3 text-red-600 text-center text-sm">
+          Désolé, une erreur est survenue lors de la suppression du vinyle.
+          Veuillez réessayer plus tard.
+        </p>
       </div>
     </div>
   </VinylModal>
@@ -76,6 +79,7 @@ import {
   TrashIcon,
   XCircleIcon,
 } from "@heroicons/vue/outline";
+import { HTTP } from "@/config/http-common";
 
 export default {
   name: "VinylActionModal",
@@ -90,6 +94,7 @@ export default {
   data() {
     return {
       wantDelete: false,
+      failedDelete: false,
     };
   },
   props: {
@@ -109,11 +114,32 @@ export default {
       type: Boolean,
       default: true,
     },
+    vinylIsDelete: {
+      type: Function,
+      default: () => {},
+    },
   },
   methods: {
     closeModal() {
       this.wantDelete = false;
+      this.failedDelete = false;
       this.$props.close();
+    },
+    async deleteVinyl() {
+      this.$store.commit("enableLoading");
+
+      try {
+        const res = await HTTP.delete("vinyls/" + this.$props.vinyl.id);
+        if (res.status !== 204) {
+          throw new Error("Error while deleting vinyl");
+        }
+
+        this.$props.vinylIsDelete(this.$props.vinyl.id);
+      } catch (e) {
+        this.wantDelete = false;
+        this.failedDelete = true;
+        this.$store.commit("disableLoading");
+      }
     },
   },
 };

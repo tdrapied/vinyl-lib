@@ -1,5 +1,32 @@
 <template>
   <CustomLoader />
+  <VinylModal v-if="isEdit" :isOpen="modalIsOpen" :close="closeModal">
+    <p class="text-center text-xl font-medium">
+      Voulez-vous vraiment supprimer ce vinyle ?
+    </p>
+    <div class="mt-6 flex">
+      <button
+        type="button"
+        class="px-4 py-2 font-medium flex items-center focus:outline-none"
+        @click="closeModal"
+      >
+        <XCircleIcon class="h-7 w-7" />
+        <div class="pl-4">Non, ne rien faire</div>
+      </button>
+      <button
+        type="button"
+        class="text-red-600 px-4 py-2 font-medium flex items-center focus:outline-none"
+        @click="deleteVinyl"
+      >
+        <TrashIcon class="h-7 w-7" />
+        <div class="pl-4">Oui, supprimer</div>
+      </button>
+    </div>
+    <p v-if="failedDelete" class="mt-3 text-red-600 text-center text-sm">
+      Désolé, une erreur est survenue lors de la suppression du vinyle. Veuillez
+      réessayer plus tard.
+    </p>
+  </VinylModal>
   <DashboardBase>
     <header>
       <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
@@ -96,7 +123,8 @@
               <div class="mt-14 text-center">
                 <div class="mb-6" v-if="failed">
                   <p class="text-center font-light text-red-600">
-                    Désolé, une erreur est survenue lors de l'ajout du vinyle.
+                    Désolé, une erreur est survenue lors de
+                    {{ isEdit ? "la modification" : "l'ajout" }} du vinyle.
                     Veuillez réessayer plus tard.
                   </p>
                 </div>
@@ -109,10 +137,11 @@
               </div>
             </div>
           </form>
-          <div class="mt-4 text-center">
+          <div v-if="isEdit" class="mt-4 text-center">
             <button
               type="button"
               class="py-2 px-4 text-lg font-medium text-red-600 focus:outline-none"
+              @click="modalIsOpen = true"
             >
               Supprimer
             </button>
@@ -126,19 +155,25 @@
 <script>
 import CustomLoader from "@/components/CustomLoader";
 import DashboardBase from "@/components/DashboardBase";
-import { QrcodeIcon } from "@heroicons/vue/outline";
+import { QrcodeIcon, XCircleIcon, TrashIcon } from "@heroicons/vue/outline";
 import { HTTP } from "@/config/http-common";
+import VinylModal from "@/components/VinylModal";
 
 export default {
   name: "VinylForm",
   components: {
+    VinylModal,
     CustomLoader,
     DashboardBase,
     QrcodeIcon,
+    XCircleIcon,
+    TrashIcon,
   },
   data() {
     return {
       isEdit: false,
+      modalIsOpen: false,
+      failedDelete: false,
       vinyl: {
         name: null,
         artist: null,
@@ -149,6 +184,10 @@ export default {
     };
   },
   methods: {
+    closeModal() {
+      this.failedDelete = false;
+      this.modalIsOpen = false;
+    },
     validForm() {
       let isFormValid = true;
 
@@ -234,13 +273,32 @@ export default {
 
         this.$router.push({
           name: "vinyl-detail",
-          params: { id: this.vinyl.id },
+          params: { id: this.isEdit ? this.vinyl.id : res.data.id },
         });
       } catch (e) {
         if (e.response && e.response.status === 401) {
           return this.$router.push({ name: "login" });
         }
         this.failed = true;
+        this.$store.commit("disableLoading");
+      }
+    },
+    async deleteVinyl() {
+      if (!this.isEdit) {
+        return;
+      }
+
+      this.$store.commit("enableLoading");
+
+      try {
+        const res = await HTTP.delete("vinyls/" + this.vinyl.id);
+        if (res.status !== 204) {
+          throw new Error("Error while deleting vinyl");
+        }
+
+        this.$router.push({ name: "home" });
+      } catch (e) {
+        this.failedDelete = true;
         this.$store.commit("disableLoading");
       }
     },
