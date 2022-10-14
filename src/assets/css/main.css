@@ -30,6 +30,7 @@
   font-style: normal;
 }
 
-html {
+body {
   font-family: Roboto, sans-serif;
+  background: #f8f7fa;
 }

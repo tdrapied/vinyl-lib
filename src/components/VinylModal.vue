@@ -1,5 +1,5 @@
 <template>
-  <TransitionRoot appear :show="isOpen" as="template">
+  <TransitionRoot appear :show="isOpen" as="template" class="z-[99]">
     <Dialog as="div" @close="close" class="relative z-9">
       <TransitionChild
         as="template"
@@ -29,6 +29,17 @@
             <DialogPanel
               class="w-full max-w-md transform overflow-hidden rounded-2xl bg-white py-10 px-6 text-left align-middle shadow-xl transition-all"
             >
+              <div class="absolute top-0 right-0">
+                <div class="pt-4 pr-4">
+                  <button
+                    type="button"
+                    class="focus:outline-none"
+                    @click="close"
+                  >
+                    <XIcon class="h-7 w-7" />
+                  </button>
+                </div>
+              </div>
               <slot />
             </DialogPanel>
           </TransitionChild>
@@ -45,6 +56,7 @@ import {
   Dialog,
   DialogPanel,
 } from "@headlessui/vue";
+import { XIcon } from "@heroicons/vue/outline";
 
 export default {
   name: "VinylModal",
@@ -53,6 +65,7 @@ export default {
     TransitionChild,
     Dialog,
     DialogPanel,
+    XIcon,
   },
   props: {
     isOpen: {

@@ -133,7 +133,7 @@ export default {
   async mounted() {
     HTTP.get("/vinyls")
       .then((res) => {
-        this.items = res.data;
+        this.items = res.data.data;
         this.$store.commit("disableLoading");
       })
       .catch((e) => {

@@ -1,10 +1,11 @@
 <template>
   <CustomLoader />
-  <VinylModal v-if="isEdit" :isOpen="modalIsOpen" :close="closeModal">
-    <p class="text-center text-xl font-medium">
+  <BarcodeReader v-if="showCamera" :close="cameraClosed" />
+  <VinylModal v-if="isEdit" :isOpen="showModal" :close="closeModal">
+    <p class="mt-10 text-center text-xl font-medium">
       Voulez-vous vraiment supprimer ce vinyle ?
     </p>
-    <div class="mt-6 flex">
+    <div class="mt-8 flex">
       <button
         type="button"
         class="px-4 py-2 font-medium flex items-center focus:outline-none"
@@ -27,7 +28,7 @@
       réessayer plus tard.
     </p>
   </VinylModal>
-  <DashboardBase>
+  <DashboardBase :hidden="showCamera">
     <header>
       <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center">
@@ -35,8 +36,10 @@
             {{ isEdit ? "Modifier un vinyle" : "Ajouter un vinyle" }}
           </h1>
           <button
+            v-if="isMobile"
             type="submit"
             class="inline-flex items-center justify-center w-14 h-14 text-white bg-primary rounded-full"
+            @click="showCamera = true"
           >
             <QrcodeIcon class="w-8 h-8" />
           </button>
@@ -121,11 +124,9 @@
                 >
               </div>
               <div class="mt-14 text-center">
-                <div class="mb-6" v-if="failed">
+                <div class="mb-6" v-if="failedMessage">
                   <p class="text-center font-light text-red-600">
-                    Désolé, une erreur est survenue lors de
-                    {{ isEdit ? "la modification" : "l'ajout" }} du vinyle.
-                    Veuillez réessayer plus tard.
+                    {{ failedMessage }}
                   </p>
                 </div>
                 <button
@@ -141,7 +142,7 @@
             <button
               type="button"
               class="py-2 px-4 text-lg font-medium text-red-600 focus:outline-none"
-              @click="modalIsOpen = true"
+              @click="showModal = true"
             >
               Supprimer
             </button>
@@ -158,12 +159,14 @@ import DashboardBase from "@/components/DashboardBase";
 import { QrcodeIcon, XCircleIcon, TrashIcon } from "@heroicons/vue/outline";
 import { HTTP } from "@/config/http-common";
 import VinylModal from "@/components/VinylModal";
+import BarcodeReader from "@/components/BarcodeReader";
 
 export default {
   name: "VinylForm",
   components: {
     VinylModal,
     CustomLoader,
+    BarcodeReader,
     DashboardBase,
     QrcodeIcon,
     XCircleIcon,
@@ -172,7 +175,8 @@ export default {
   data() {
     return {
       isEdit: false,
-      modalIsOpen: false,
+      showModal: false,
+      showCamera: false,
       failedDelete: false,
       vinyl: {
         name: null,
@@ -180,13 +184,44 @@ export default {
         releaseDate: null,
         description: null,
       },
-      failed: false,
+      failedMessage: null,
     };
+  },
+  computed: {
+    isMobile() {
+      return true; //navigator.userAgentData.mobile;
+    },
   },
   methods: {
     closeModal() {
       this.failedDelete = false;
-      this.modalIsOpen = false;
+      this.showModal = false;
+    },
+    async cameraClosed(barcode) {
+      this.showCamera = false;
+
+      if (barcode) {
+        try {
+          const res = await HTTP.get("vinyls/search", {
+            params: {
+              barcode,
+            },
+          });
+          if (res.status !== 200) {
+            throw new Error("Error while searching vinyl information");
+          }
+
+          this.failedMessage = null;
+
+          this.vinyl.name = res.data.name;
+          this.vinyl.artist = res.data.artist;
+          this.vinyl.releaseDate = res.data.releaseDate;
+        } catch (e) {
+          this.failedMessage = `Désolé, le vinyle qui vous avait scanné est introuvable.`;
+        }
+      }
+
+      this.$store.commit("disableLoading");
     },
     validForm() {
       let isFormValid = true;
@@ -279,7 +314,11 @@ export default {
         if (e.response && e.response.status === 401) {
           return this.$router.push({ name: "login" });
         }
-        this.failed = true;
+
+        this.failedMessage = `Désolé, une erreur est survenue lors de ${
+          this.isEdit ? "la modification" : "l'ajout"
+        } du vinyle. Veuillez réessayer plus tard.`;
+
         this.$store.commit("disableLoading");
       }
     },

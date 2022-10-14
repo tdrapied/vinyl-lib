@@ -1,12 +1,5 @@
 <template>
   <VinylModal :isOpen="isOpen" :close="closeModal">
-    <div class="absolute top-0 right-0">
-      <div class="pt-4 pr-4">
-        <button type="button" class="focus:outline-none" @click="closeModal">
-          <XIcon class="h-7 w-7" />
-        </button>
-      </div>
-    </div>
     <div class="text-center pt-2">
       <div class="flex justify-center mb-4">
         <img
@@ -73,7 +66,6 @@
 <script>
 import VinylModal from "@/components/VinylModal";
 import {
-  XIcon,
   InformationCircleIcon,
   PencilAltIcon,
   TrashIcon,
@@ -85,7 +77,6 @@ export default {
   name: "VinylActionModal",
   components: {
     VinylModal,
-    XIcon,
     InformationCircleIcon,
     PencilAltIcon,
     TrashIcon,
