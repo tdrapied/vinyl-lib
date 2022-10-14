@@ -54,7 +54,7 @@
               <div class="flex justify-center">
                 <img
                   class="object-contain w-52 h-52"
-                  src="https://fakeimg.pl/500/?text=Vinyl"
+                  :src="require('../assets/vinyl-cover-default.png')"
                   alt="vinyl cover"
                 />
               </div>
@@ -217,7 +217,7 @@ export default {
           this.vinyl.artist = res.data.artist;
           this.vinyl.releaseDate = res.data.releaseDate;
         } catch (e) {
-          this.failedMessage = `Désolé, le vinyle qui vous avait scanné est introuvable.`;
+          this.failedMessage = `Désolé, le vinyle que vous avait scanné est introuvable.`;
         }
       }
 

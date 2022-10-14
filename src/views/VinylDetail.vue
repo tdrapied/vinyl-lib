@@ -28,7 +28,7 @@
           <div class="flex justify-center">
             <img
               class="object-contain w-52 h-52"
-              src="https://fakeimg.pl/500/?text=Vinyl"
+              :src="require('../assets/vinyl-cover-default.png')"
               alt="vinyl cover"
             />
           </div>

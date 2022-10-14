@@ -8,7 +8,7 @@
         <div class="mr-5">
           <img
             class="object-contain h-12 w-12"
-            src="https://fakeimg.pl/60/?text=%E3%85%A4"
+            :src="require('../assets/vinyl-cover-default.png')"
           />
         </div>
         <div>
