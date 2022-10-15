@@ -11,7 +11,9 @@
     <header>
       <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center">
-          <h1 class="text-4xl font-bold text-black py-4">{{ vinyl.name }}</h1>
+          <h1 class="text-3xl sm:text-4xl font-bold text-black py-4">
+            {{ vinyl.name }}
+          </h1>
           <button
             type="button"
             class="inline-flex items-center justify-center w-14 h-14 text-white bg-primary rounded-full"
@@ -27,7 +29,7 @@
         <div class="px-4 sm:px-0 pb-10">
           <div class="flex justify-center">
             <img
-              class="object-contain w-52 h-52"
+              class="object-contain w-44 h-44 sm:w-52 sm:h-52"
               :src="require('../assets/vinyl-cover-default.png')"
               alt="vinyl cover"
             />

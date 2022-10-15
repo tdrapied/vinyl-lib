@@ -1,10 +1,13 @@
 <template>
-  <tr class="hover:bg-primary-light">
-    <td class="text-center font-bold">
+  <tr
+    class="hover:bg-primary-light"
+    @click="isMobile ? showModal(vinyl) : null"
+  >
+    <td class="hidden sm:table-cell text-center font-bold">
       <div class="px-1">{{ number }}</div>
     </td>
     <td>
-      <div class="flex items-center py-2">
+      <div class="flex items-center py-2 pl-6 sm:pl-0">
         <div class="mr-5">
           <img
             class="object-contain h-12 w-12"
@@ -26,11 +29,11 @@
       <div>{{ createdAt }}</div>
     </td>
     <td>
-      <div>
+      <div class="text-center">
         <button
           type="button"
           class="focus:outline-none"
-          @click="showModal(vinyl)"
+          @click="isMobile ? null : showModal(vinyl)"
         >
           <DotsVerticalIcon class="h-6 w-6" />
         </button>
@@ -66,6 +69,9 @@ export default {
     },
   },
   computed: {
+    isMobile() {
+      return navigator.userAgentData.mobile;
+    },
     createdAt: function () {
       if (this.vinyl.createdAt) {
         return moment(this.vinyl.createdAt).fromNow();

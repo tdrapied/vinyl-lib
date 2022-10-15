@@ -5,7 +5,7 @@
     <p class="mt-10 text-center text-xl font-medium">
       Voulez-vous vraiment supprimer ce vinyle ?
     </p>
-    <div class="mt-8 flex">
+    <div class="mt-8 flex flex-col sm:flex-row">
       <button
         type="button"
         class="px-4 py-2 font-medium flex items-center focus:outline-none"
@@ -32,7 +32,7 @@
     <header>
       <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center">
-          <h1 class="text-4xl font-bold text-black py-4">
+          <h1 class="text-3xl sm:text-4xl font-bold text-black py-4">
             {{ isEdit ? "Modifier un vinyle" : "Ajouter un vinyle" }}
           </h1>
           <button
@@ -53,7 +53,7 @@
             <div class="px-4 sm:px-0">
               <div class="flex justify-center">
                 <img
-                  class="object-contain w-52 h-52"
+                  class="object-contain w-44 h-44 sm:w-52 sm:h-52"
                   :src="require('../assets/vinyl-cover-default.png')"
                   alt="vinyl cover"
                 />
@@ -189,7 +189,7 @@ export default {
   },
   computed: {
     isMobile() {
-      return true; //navigator.userAgentData.mobile;
+      return navigator.userAgentData.mobile;
     },
   },
   methods: {

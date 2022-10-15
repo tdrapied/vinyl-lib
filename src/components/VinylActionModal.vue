@@ -36,7 +36,7 @@
           <TrashIcon class="h-7 w-7" />
           <div class="pl-4">Supprimer</div>
         </button>
-        <div v-if="wantDelete" class="flex">
+        <div v-if="wantDelete" class="flex flex-col sm:flex-row">
           <button
             type="button"
             class="px-4 py-2 font-medium flex items-center focus:outline-none"
@@ -124,6 +124,8 @@ export default {
         if (res.status !== 204) {
           throw new Error("Error while deleting vinyl");
         }
+
+        this.wantDelete = false;
 
         this.$props.vinylIsDelete(this.$props.vinyl.id);
       } catch (e) {

@@ -11,7 +11,9 @@
       <div class="max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between">
           <div>
-            <h1 class="text-4xl font-bold text-black">Ma librairie</h1>
+            <h1 class="text-3xl sm:text-4xl font-bold text-black">
+              Ma librairie
+            </h1>
             <h2 class="mt-2 font-light text-gray-500">
               {{ vinylCountString }}
             </h2>
@@ -19,10 +21,9 @@
           <div v-if="items.length > 0">
             <router-link
               :to="{ name: 'vinyl-create' }"
-              class="inline-flex items-center py-2 px-4 border border-transparent text-lg font-medium rounded-md text-white bg-primary focus:outline-none"
+              class="inline-flex items-center justify-center w-14 h-14 text-white bg-primary rounded-full"
             >
-              <PlusIcon class="w-6 h-6 mr-1" />
-              Ajouter un vinyle
+              <PlusIcon class="w-6 h-6" />
             </router-link>
           </div>
         </div>
@@ -30,12 +31,14 @@
     </header>
     <main>
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <div class="px-4 sm:px-0 pb-10">
+        <div class="sm:px-0 pb-10">
           <table class="table-auto w-full" v-if="items.length > 0">
             <thead>
               <tr>
-                <th class="text-center font-normal pb-3">#</th>
-                <th class="text-left font-normal pb-3">VINYLE</th>
+                <th class="text-center font-normal pb-3 hidden sm:table-cell">
+                  #
+                </th>
+                <th class="text-left font-normal pb-3 pl-6 sm:pl-0">VINYLE</th>
                 <th class="text-left font-normal pb-3 hidden sm:table-cell">
                   DATE DE SORTIE
                 </th>
