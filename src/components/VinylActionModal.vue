@@ -127,7 +127,7 @@ export default {
 
         this.wantDelete = false;
 
-        this.$props.vinylIsDelete(this.$props.vinyl.id);
+        this.$props.vinylIsDelete();
       } catch (e) {
         this.wantDelete = false;
         this.failedDelete = true;

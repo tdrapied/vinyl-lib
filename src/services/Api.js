@@ -16,4 +16,19 @@ export default {
       // Do nothing
     });
   },
+
+  async vinylList(params = {}) {
+    return HTTP.get("/vinyls", {
+      params,
+    })
+      .then((res) => {
+        if (res.status !== 200) {
+          throw new Error("Error while fetching vinyls");
+        }
+        return res.data;
+      })
+      .catch((err) => {
+        throw err;
+      });
+  },
 };
