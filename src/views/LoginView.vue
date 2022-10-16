@@ -12,7 +12,7 @@
             alt="logo"
           />
         </div>
-        <h1 class="mt-6 text-center text-4xl font-extrabold text-black">
+        <h1 class="mt-6 text-center text-4xl font-bold text-black">
           Connexion
         </h1>
       </div>
@@ -67,10 +67,13 @@
 <script>
 import CustomLoader from "@/components/CustomLoader";
 import { HTTP } from "@/config/http-common";
+import Api from "@/services/Api";
 
 export default {
   name: "LoginView",
-  components: { CustomLoader },
+  components: {
+    CustomLoader,
+  },
   data() {
     return {
       email: "",
@@ -80,8 +83,6 @@ export default {
   },
   methods: {
     login(e) {
-      this.$store.commit("enableLoading");
-
       // Remove focus from currently active element
       document.activeElement?.blur();
 
@@ -90,7 +91,7 @@ export default {
         password: this.password,
       })
         .then(() => {
-          this.$router.push("/");
+          this.$router.push({ name: "home" });
         })
         .catch((e) => {
           if (e.response.status === 401) {
@@ -105,8 +106,14 @@ export default {
       e.preventDefault();
     },
   },
-  created() {
-    this.$store.commit("disableLoading");
+  async created() {
+    try {
+      // If user is already connected > redirect to home
+      await Api.me();
+      this.$router.push({ name: "home" });
+    } catch (e) {
+      this.$store.commit("disableLoading");
+    }
   },
 };
 </script>

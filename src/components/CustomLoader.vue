@@ -1,7 +1,7 @@
 <template>
   <div :class="this.$store.state.isLoading ? 'block' : 'hidden'">
     <div
-      class="absolute fixed h-screen w-screen flex items-center justify-center z-10 bg-white"
+      class="absolute fixed h-screen w-screen flex items-center justify-center z-[99] bg-white"
       :hidden="!this.$store.state.isLoading"
     >
       <div>

@@ -5,7 +5,10 @@ module.exports = {
   theme: {
     colors: {
       transparent: "transparent",
-      primary: "#7688e8",
+      primary: {
+        DEFAULT: "#7688e8",
+        light: "rgba(118,136,232,0.15)",
+      },
       secondary: "#f9f9f9",
       white: {
         DEFAULT: "#ffffff",

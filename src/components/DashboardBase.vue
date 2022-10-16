@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-full">
+  <div class="min-h-full" :hidden="this.$store.state.isLoading">
     <Disclosure
       as="nav"
       class="bg-white border-b border-gray-300"
@@ -8,23 +8,26 @@
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
           <div class="flex items-center">
-            <div class="flex-shrink-0">
-              <img
-                class="h-8 w-8"
-                src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
-                alt="logo"
-              />
-            </div>
+            <router-link :to="{ name: 'home' }">
+              <div class="flex items-center justify-between flex-shrink-0">
+                <img
+                  class="h-10 w-10"
+                  :src="require('../assets/logo.svg')"
+                  alt="logo"
+                />
+                <div class="font-bold ml-4 text-xl">Vinylib</div>
+              </div>
+            </router-link>
           </div>
           <div class="hidden md:block">
             <div class="ml-4 flex items-center md:ml-6">
               <Menu as="div" class="ml-3 relative">
                 <div class="flex items-center justify-between text-right">
                   <div class="mr-3">
-                    <div class="text-base font-medium leading-none text-black">
+                    <div class="text-base font-bold leading-none text-black">
                       {{ user.name }}
                     </div>
-                    <div class="text-sm font-medium leading-none text-gray-400">
+                    <div class="text-sm mt-1 leading-none text-gray-400">
                       {{ user.email }}
                     </div>
                   </div>
@@ -40,9 +43,12 @@
                   class="origin-top-right absolute right-0 mt-2 w-48 rounded-md py-1 bg-white border border-gray-300 focus:outline-none"
                 >
                   <MenuItem>
-                    <a href="#" class="block px-4 py-2 text-sm text-gray-700">
+                    <router-link
+                      :to="{ name: 'logout' }"
+                      class="block px-4 py-2 text-sm text-gray-700"
+                    >
                       Se déconnecter
-                    </a>
+                    </router-link>
                   </MenuItem>
                 </MenuItems>
               </Menu>
@@ -68,40 +74,26 @@
               </div>
             </div>
             <div class="ml-3">
-              <div class="text-base font-medium leading-none text-black">
+              <div class="text-base font-bold leading-none text-black">
                 {{ user.name }}
               </div>
-              <div class="text-sm font-medium leading-none text-gray-400">
+              <div class="text-sm mt-1 leading-none text-gray-400">
                 {{ user.email }}
               </div>
             </div>
           </div>
           <div class="mt-3 px-2 space-y-1">
-            <DisclosureButton
-              as="a"
-              href="#"
+            <router-link
+              :to="{ name: 'logout' }"
               class="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-primary hover:bg-secondary"
               >Se déconnecter
-            </DisclosureButton>
+            </router-link>
           </div>
         </div>
       </DisclosurePanel>
     </Disclosure>
 
-    <header>
-      <div class="max-w-7xl mx-auto py-7 px-4 sm:px-6 lg:px-8">
-        <h1 class="text-3xl font-bold text-black">Mes vinyles</h1>
-      </div>
-    </header>
-    <main>
-      <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <!-- Replace with your content -->
-        <div class="px-4 pb-8 sm:px-0">
-          <div class="border-4 border-dashed border-gray-200 rounded-lg h-96" />
-        </div>
-        <!-- /End replace -->
-      </div>
-    </main>
+    <slot />
   </div>
 </template>
 
@@ -116,9 +108,10 @@ import {
   MenuItems,
 } from "@headlessui/vue";
 import { MenuIcon, XIcon, UserIcon } from "@heroicons/vue/outline";
+import Api from "@/services/Api";
 
 export default {
-  name: "DashboardView",
+  name: "DashboardBase",
   components: {
     Disclosure,
     DisclosureButton,
@@ -134,18 +127,20 @@ export default {
   data() {
     return {
       user: {
-        name: "Tom Cook",
-        email: "tom@example.com",
+        name: "",
+        email: "",
       },
     };
   },
-  created() {
-    // If user is not connected, redirect to login
-    // TODO: Call /auth/me
-    console.log("wait");
-
-    this.$router.push("/login");
-    //this.$store.commit("disableLoading");
+  async created() {
+    try {
+      const user = await Api.me();
+      this.user.email = user.email;
+      this.user.name = `${user.firstName} ${user.lastName}`;
+    } catch (e) {
+      // If user is not connected > redirect to login
+      this.$router.push({ name: "login" });
+    }
   },
 };
 </script>

@@ -1,5 +1,7 @@
 <template>
-  <div class="bg-white-dark h-screen">
-    <router-view />
-  </div>
+  <router-view />
 </template>
+
+<script>
+export default { name: "App" };
+</script>
