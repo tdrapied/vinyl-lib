@@ -192,8 +192,6 @@ export default {
       const query = this.queryInput.trim();
       if (query.length < 1) return;
 
-      // TODO: Attendre un peu qu'il est fini d'écrire
-
       clearTimeout(this.searchTimer);
       this.searchTimer = setTimeout(() => {
         this.updateList({ search: query });
