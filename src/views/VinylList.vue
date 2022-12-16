@@ -99,7 +99,7 @@
             <div>
               <div class="text-2xl font-bold">Votre librairie est vide.</div>
               <div class="mt-3 font-light text-gray-400">
-                On dirait que vous n'avez pas de vynile ici. Ajoutez-en !
+                On dirait que vous n'avez pas de vinyles ici. Ajoutez-en !
               </div>
             </div>
             <div class="mt-8 text-center">

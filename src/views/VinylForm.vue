@@ -65,13 +65,13 @@
                   type="text"
                   v-model.trim="vinyl.name"
                   class="peer h-10 w-full bg-secondary border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-primary"
-                  placeholder="Nom du vynile"
+                  placeholder="Nom du vinyle"
                   required
                 />
                 <label
                   for="name"
                   class="absolute left-0 -top-5 text-gray-600 transition-all peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-5 peer-focus:text-gray-600"
-                  >Nom du vynile *</label
+                  >Nom du vinyle *</label
                 >
               </div>
               <div class="relative font-medium mt-10">
