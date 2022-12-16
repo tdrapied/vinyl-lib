@@ -286,15 +286,13 @@ export default {
         const data = {
           name: this.vinyl.name,
           artist: this.vinyl.artist,
-          releaseDate:
-            this.vinyl.releaseDate?.length > 1 ? this.vinyl.releaseDate : null,
-          description:
-            this.vinyl.description?.length > 1 ? this.vinyl.description : null,
+          releaseDate: this.vinyl.releaseDate,
+          description: this.vinyl.description,
         };
 
         let res;
         if (this.isEdit) {
-          res = await HTTP.patch("/vinyls/" + this.$route.params.id, data);
+          res = await HTTP.put("/vinyls/" + this.$route.params.id, data);
         } else {
           res = await HTTP.post("/vinyls", data);
         }

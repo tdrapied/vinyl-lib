@@ -198,7 +198,6 @@ export default {
             URL.revokeObjectURL(objectUrl);
 
             if (result && result.codeResult) {
-              console.log(result);
               resolve(result.codeResult.code);
             } else {
               reject("No barcode found");
