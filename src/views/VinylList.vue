@@ -18,7 +18,7 @@
               {{ vinylCountString }}
             </h2>
           </div>
-          <div v-if="!noItem">
+          <div v-if="noItems">
             <router-link
               :to="{ name: 'vinyl-create' }"
               class="inline-flex items-center justify-center w-14 h-14 text-white bg-primary rounded-full"
@@ -32,7 +32,7 @@
     <main>
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="px-4 sm:px-0 pb-10">
-          <div v-if="!noItem">
+          <div v-if="noItems || items.length > 0">
             <div class="pb-10 flex">
               <div
                 class="h-10 px-2 border-2 border-primary border-r-0 rounded-l-xl flex items-center"
@@ -140,7 +140,6 @@ export default {
   data() {
     return {
       items: [],
-      noItem: true,
       modalIsOpen: false,
       modalVinyl: {},
       queryInput: "",
@@ -149,6 +148,10 @@ export default {
     };
   },
   computed: {
+    /* Return false if a query is set and no items are found */
+    noItems() {
+      return this.items.length === 0 && this.query?.length > 0;
+    },
     vinylCountString() {
       switch (this.items.length) {
         case 0:
@@ -181,7 +184,8 @@ export default {
       this.updateList();
     },
     searchVinyl() {
-      if (this.queryInput.length === 0) {
+      if (!this.queryInput.length || this.queryInput.length === 0) {
+        clearTimeout(this.searchTimer);
         this.updateList();
         document.getElementById("search-x").classList.add("text-transparent");
         return;
@@ -210,7 +214,6 @@ export default {
   async mounted() {
     this.$store.commit("enableLoading");
     await this.updateList();
-    this.noItem = this.items.length === 0;
     this.$store.commit("disableLoading");
   },
 };
