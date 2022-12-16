@@ -189,7 +189,7 @@ export default {
   },
   computed: {
     isMobile() {
-      return navigator.userAgentData.mobile;
+      return navigator.userAgentData?.mobile;
     },
   },
   methods: {

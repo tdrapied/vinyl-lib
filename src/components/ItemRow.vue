@@ -70,7 +70,7 @@ export default {
   },
   computed: {
     isMobile() {
-      return navigator.userAgentData.mobile;
+      return navigator.userAgentData?.mobile;
     },
     createdAt: function () {
       if (this.vinyl.createdAt) {
