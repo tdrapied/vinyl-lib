@@ -7,6 +7,12 @@ module.exports = defineConfig({
     msTileColor: "#7688e8",
     appleMobileWebAppCapable: "yes",
     appleMobileWebAppStatusBarStyle: "black",
+    manifestOptions: {
+      background_color: "#7688e8",
+    },
+    iconPaths: {
+      faviconSVG: null,
+    },
     workboxOptions: {
       exclude: [".htaccess"],
     },
