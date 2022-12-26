@@ -18,7 +18,7 @@
               {{ vinylCountString }}
             </h2>
           </div>
-          <div v-if="noItems">
+          <div v-if="items.length > 0 || inSearch">
             <router-link
               :to="{ name: 'vinyl-create' }"
               class="inline-flex items-center justify-center w-14 h-14 text-white bg-primary rounded-full"
@@ -32,7 +32,7 @@
     <main>
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="px-4 sm:px-0 pb-10">
-          <div v-if="noItems || items.length > 0">
+          <div v-if="items.length > 0 || inSearch">
             <div class="pb-10 flex">
               <div
                 class="h-10 px-2 border-2 border-primary border-r-0 rounded-l-xl flex items-center"
@@ -148,9 +148,8 @@ export default {
     };
   },
   computed: {
-    /* Return false if a query is set and no items are found */
-    noItems() {
-      return this.items.length === 0 && this.query?.length > 0;
+    inSearch() {
+      return this.query?.length > 0;
     },
     vinylCountString() {
       switch (this.items.length) {
@@ -172,8 +171,8 @@ export default {
       this.modalIsOpen = false;
     },
     vinylIsDelete() {
-      this.updateList();
       this.closeModal();
+      this.clearQuery();
       this.$store.commit("disableLoading");
     },
     clearQuery() {
