@@ -31,9 +31,9 @@
     </header>
     <main>
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <div class="px-4 sm:px-0 pb-10">
+        <div class="sm:px-0 pb-10">
           <div v-if="items.length > 0 || inSearch">
-            <div class="pb-10 flex">
+            <div class="px-4 sm:px-0 pb-10 flex">
               <div
                 class="h-10 px-2 border-2 border-primary border-r-0 rounded-l-xl flex items-center"
               >
