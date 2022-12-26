@@ -11,7 +11,9 @@
         <div class="mr-5">
           <img
             class="object-contain h-12 w-12"
-            :src="require('../assets/vinyl-cover-default.png')"
+            :src="
+              vinyl.coverSmall || require('../assets/vinyl-cover-default.png')
+            "
           />
         </div>
         <div>

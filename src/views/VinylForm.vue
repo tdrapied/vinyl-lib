@@ -54,7 +54,10 @@
               <div class="flex justify-center">
                 <img
                   class="object-contain w-44 h-44 sm:w-52 sm:h-52"
-                  :src="require('../assets/vinyl-cover-default.png')"
+                  :src="
+                    vinyl.coverLarge ||
+                    require('../assets/vinyl-cover-default.png')
+                  "
                   alt="vinyl cover"
                 />
               </div>
