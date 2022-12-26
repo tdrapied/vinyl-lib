@@ -176,7 +176,6 @@ export default {
       this.$store.commit("disableLoading");
     },
     clearQuery() {
-      if (this.queryInput.length < 1) return;
       this.queryInput = "";
       this.query = "";
       document.getElementById("search-x").classList.add("text-transparent");
