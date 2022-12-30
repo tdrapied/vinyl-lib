@@ -232,7 +232,7 @@ export default {
       if (
         !this.vinyl.name ||
         this.vinyl.name.length < 1 ||
-        this.vinyl.name.length >= 50
+        this.vinyl.name.length >= 250
       ) {
         isFormValid = false;
         document.getElementById("name").classList.add("invalid");
@@ -243,7 +243,7 @@ export default {
       if (
         !this.vinyl.artist ||
         this.vinyl.artist.length < 1 ||
-        this.vinyl.artist.length >= 50
+        this.vinyl.artist.length >= 250
       ) {
         isFormValid = false;
         document.getElementById("artist").classList.add("invalid");
