@@ -16,11 +16,11 @@
             "
           />
         </div>
-        <div>
-          <div class="text-lg font-bold">
+        <div class="grid">
+          <div class="text-lg font-bold truncate">
             {{ vinyl.name }}
           </div>
-          <div>{{ vinyl.artist }}</div>
+          <div class="truncate">{{ vinyl.artist }}</div>
         </div>
       </div>
     </td>
@@ -34,7 +34,7 @@
       <div class="text-center">
         <button
           type="button"
-          class="focus:outline-none"
+          class="px-2 sm:px focus:outline-none"
           @click="isMobile ? null : showModal(vinyl)"
         >
           <DotsVerticalIcon class="h-6 w-6" />
