@@ -1,20 +1,51 @@
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "../views/HomeView.vue";
+import VinylList from "../views/VinylList";
+import Api from "../services/Api";
 
 const routes = [
   {
     path: "/",
-    name: "home",
-    component: HomeView,
+    redirect: "/vinyls",
   },
   {
-    path: "/about",
-    name: "about",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
+    path: "/vinyls",
+    name: "home",
+    component: VinylList,
+  },
+  {
+    path: "/vinyls/create",
+    name: "vinyl-create",
+    component: () => import("../views/VinylForm"),
+  },
+  {
+    path: "/vinyls/:id",
+    name: "vinyl-detail",
+    component: () => import("../views/VinylDetail"),
+  },
+  {
+    path: "/vinyls/:id/edit",
+    name: "vinyl-edit",
+    component: () => import("../views/VinylForm"),
+  },
+  {
+    path: "/login",
+    name: "login",
+    component: () => import("../views/LoginView"),
+  },
+  {
+    path: "/logout",
+    name: "logout",
+    component: {
+      async beforeRouteEnter(to, from, next) {
+        await Api.logout();
+        next((vm) => vm.$router.push("/login"));
+      },
+    },
+  },
+  {
+    path: "/:pathMatch(.*)*",
+    name: "not-found",
+    component: () => import("../views/NotFoundView"),
   },
 ];
 
