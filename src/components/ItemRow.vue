@@ -10,10 +10,8 @@
       <div class="flex items-center py-2 pl-6 sm:pl-0">
         <div class="mr-5">
           <img
-            class="object-contain h-12 w-12"
-            :src="
-              vinyl.coverSmall || require('../assets/vinyl-cover-default.png')
-            "
+            class="object-cover h-12 w-12"
+            :src="vinyl.cover || require('../assets/vinyl-cover-default.png')"
           />
         </div>
         <div class="grid">

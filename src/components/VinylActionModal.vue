@@ -3,10 +3,8 @@
     <div class="text-center pt-2">
       <div class="flex justify-center mb-4">
         <img
-          class="object-contain h-40 w-40"
-          :src="
-            vinyl.coverLarge || require('../assets/vinyl-cover-default.png')
-          "
+          class="object-cover h-40 w-40"
+          :src="vinyl.cover || require('../assets/vinyl-cover-default.png')"
         />
       </div>
       <div class="text-lg font-bold">{{ vinyl.name || "name" }}</div>

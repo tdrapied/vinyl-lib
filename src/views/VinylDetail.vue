@@ -25,10 +25,8 @@
         <div class="px-4 sm:px-0 pb-10">
           <div class="flex justify-center">
             <img
-              class="object-contain w-[90%] h-[90%] sm:w-52 sm:h-52"
-              :src="
-                vinyl.coverLarge || require('../assets/vinyl-cover-default.png')
-              "
+              class="object-cover w-[90%] sm:w-72"
+              :src="vinyl.cover || require('../assets/vinyl-cover-default.png')"
               alt="vinyl cover"
             />
           </div>

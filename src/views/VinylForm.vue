@@ -3,7 +3,7 @@
   <BarcodeReader v-if="showCamera" :close="cameraClosed" />
   <VinylModal v-if="isEdit" :isOpen="showModal" :close="closeModal">
     <p class="mt-10 text-center text-xl font-medium">
-      Voulez-vous vraiment supprimer ce vinyle ?
+      Voulez-vous vraiment supprimer<br />ce vinyle ?
     </p>
     <div class="mt-8 flex flex-col sm:flex-row">
       <button
@@ -29,144 +29,174 @@
     </p>
   </VinylModal>
   <DashboardBase :hidden="showCamera">
-    <header>
-      <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-center">
-          <h1 class="text-3xl sm:text-4xl font-bold text-black py-4">
-            {{ isEdit ? "Modifier un vinyle" : "Ajouter un vinyle" }}
-          </h1>
-          <button
-            v-if="isMobile"
-            type="submit"
-            class="inline-flex items-center justify-center w-14 h-14 text-white bg-primary rounded-full"
-            @click="showCamera = true"
-          >
-            <QrcodeIcon class="w-8 h-8" />
-          </button>
-        </div>
-      </div>
-    </header>
-    <main>
-      <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <div class="mb-3">
-          <form @submit.prevent="onSubmit">
-            <div class="px-4 sm:px-0">
-              <div class="flex justify-center">
-                <img
-                  class="object-contain w-44 h-44 sm:w-52 sm:h-52"
-                  :src="
-                    vinyl.coverLarge ||
-                    require('../assets/vinyl-cover-default.png')
-                  "
-                  alt="vinyl cover"
-                />
-              </div>
-              <div class="relative font-medium mt-10">
-                <input
-                  id="name"
-                  name="name"
-                  type="text"
-                  v-model.trim="vinyl.name"
-                  class="peer h-10 w-full bg-secondary border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-primary"
-                  placeholder="Nom du vinyle"
-                  required
-                />
-                <label
-                  for="name"
-                  class="absolute left-0 -top-5 text-gray-600 transition-all peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-5 peer-focus:text-gray-600"
-                  >Nom du vinyle *</label
-                >
-              </div>
-              <div class="relative font-medium mt-10">
-                <input
-                  id="artist"
-                  name="artist"
-                  type="text"
-                  v-model.trim="vinyl.artist"
-                  class="peer h-10 w-full bg-secondary border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-primary"
-                  placeholder="Artistes"
-                  required
-                />
-                <label
-                  for="artist"
-                  class="absolute left-0 -top-5 text-gray-600 transition-all peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-5 peer-focus:text-gray-600"
-                  >Artistes *</label
-                >
-                <span class="text-xs font-light text-gray-400"
-                  >Mettez des virgules ( , ) entre les noms d'artistes.</span
-                >
-              </div>
-              <div class="relative font-medium mt-10">
-                <input
-                  id="releaseDate"
-                  name="releaseDate"
-                  type="text"
-                  v-model.trim="vinyl.releaseDate"
-                  class="peer h-10 w-full bg-secondary border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-primary"
-                  placeholder="Année de sortie"
-                />
-                <label
-                  for="releaseDate"
-                  class="absolute left-0 -top-5 text-gray-600 transition-all peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-5 peer-focus:text-gray-600"
-                  >Année de sortie</label
-                >
-              </div>
-              <div class="relative font-medium mt-10">
-                <input
-                  id="description"
-                  name="description"
-                  type="text"
-                  v-model.trim="vinyl.description"
-                  class="peer h-10 w-full bg-secondary border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-primary"
-                  placeholder="Description"
-                />
-                <label
-                  for="description"
-                  class="absolute left-0 -top-5 text-gray-600 transition-all peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-5 peer-focus:text-gray-600"
-                  >Description</label
-                >
-              </div>
-              <div class="mt-14 text-center">
-                <div class="mb-6" v-if="failedMessage">
-                  <p class="text-center font-light text-red-600">
-                    {{ failedMessage }}
-                  </p>
-                </div>
-                <button
-                  type="submit"
-                  class="py-2 px-4 border border-transparent text-lg font-medium rounded-md text-white bg-primary focus:outline-none"
-                >
-                  {{ isEdit ? "Modifier le vinyle" : "Enregistrer le vinyle" }}
-                </button>
-              </div>
-            </div>
-          </form>
-          <div v-if="isEdit" class="mt-4 text-center">
+    <VinylCoverModal
+      v-if="showCoverModal"
+      :vinyl="vinyl"
+      :close="closeCoverModal"
+    />
+    <div :hidden="showCoverModal">
+      <header>
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+          <div class="flex justify-between items-center">
+            <h1 class="text-3xl sm:text-4xl font-bold text-black py-4">
+              {{ isEdit ? "Modifier un vinyle" : "Ajouter un vinyle" }}
+            </h1>
             <button
-              type="button"
-              class="py-2 px-4 text-lg font-medium text-red-600 focus:outline-none"
-              @click="showModal = true"
+              v-if="isMobile"
+              type="submit"
+              class="inline-flex items-center justify-center w-14 h-14 text-white bg-primary rounded-full"
+              @click="showCamera = true"
             >
-              Supprimer
+              <QrcodeIcon class="w-8 h-8" />
             </button>
           </div>
         </div>
-      </div>
-    </main>
+      </header>
+      <main>
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+          <div class="mb-3">
+            <form @submit.prevent="onSubmit">
+              <div class="px-4 sm:px-0">
+                <div class="flex justify-center">
+                  <div class="relative">
+                    <div
+                      class="absolute cursor-pointer top-[-15px] right-[-15px] inline-flex items-center justify-center w-14 h-14 text-white bg-primary rounded-full"
+                    >
+                      <PencilIcon
+                        class="w-8 h-8"
+                        @click="showCoverModal = true"
+                      />
+                    </div>
+                    <img
+                      class="object-cover w-44 h-44 sm:w-52 sm:h-52 cursor-pointer"
+                      :src="
+                        vinyl.cover ||
+                        require('../assets/vinyl-cover-default.png')
+                      "
+                      alt="vinyl cover"
+                      @click="showCoverModal = true"
+                    />
+                  </div>
+                </div>
+                <div class="text-center text-gray-600 my-3">
+                  Changer la pochette
+                </div>
+                <div class="relative font-medium mt-10">
+                  <input
+                    id="name"
+                    name="name"
+                    type="text"
+                    v-model.trim="vinyl.name"
+                    class="peer h-10 w-full bg-secondary border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-primary"
+                    placeholder="Nom du vinyle"
+                    required
+                  />
+                  <label
+                    for="name"
+                    class="absolute left-0 -top-5 text-gray-600 transition-all peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-5 peer-focus:text-gray-600"
+                    >Nom du vinyle *</label
+                  >
+                </div>
+                <div class="relative font-medium mt-10">
+                  <input
+                    id="artist"
+                    name="artist"
+                    type="text"
+                    v-model.trim="vinyl.artist"
+                    class="peer h-10 w-full bg-secondary border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-primary"
+                    placeholder="Artistes"
+                    required
+                  />
+                  <label
+                    for="artist"
+                    class="absolute left-0 -top-5 text-gray-600 transition-all peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-5 peer-focus:text-gray-600"
+                    >Artistes *</label
+                  >
+                  <span class="text-xs font-light text-gray-400"
+                    >Mettez des virgules ( , ) entre les noms d'artistes.</span
+                  >
+                </div>
+                <div class="relative font-medium mt-10">
+                  <input
+                    id="releaseDate"
+                    name="releaseDate"
+                    type="text"
+                    v-model.trim="vinyl.releaseDate"
+                    class="peer h-10 w-full bg-secondary border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-primary"
+                    placeholder="Année de sortie"
+                  />
+                  <label
+                    for="releaseDate"
+                    class="absolute left-0 -top-5 text-gray-600 transition-all peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-5 peer-focus:text-gray-600"
+                    >Année de sortie</label
+                  >
+                </div>
+                <div class="relative font-medium mt-10">
+                  <input
+                    id="description"
+                    name="description"
+                    type="text"
+                    v-model.trim="vinyl.description"
+                    class="peer h-10 w-full bg-secondary border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-primary"
+                    placeholder="Description"
+                  />
+                  <label
+                    for="description"
+                    class="absolute left-0 -top-5 text-gray-600 transition-all peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-5 peer-focus:text-gray-600"
+                    >Description</label
+                  >
+                </div>
+                <div class="mt-14 text-center">
+                  <div class="mb-6" v-if="failedMessage">
+                    <p class="text-center font-light text-red-600">
+                      {{ failedMessage }}
+                    </p>
+                  </div>
+                  <button
+                    type="submit"
+                    class="py-2 px-4 border border-transparent text-lg font-medium rounded-md text-white bg-primary focus:outline-none"
+                  >
+                    {{
+                      isEdit ? "Modifier le vinyle" : "Enregistrer le vinyle"
+                    }}
+                  </button>
+                </div>
+              </div>
+            </form>
+            <div v-if="isEdit" class="mt-4 text-center">
+              <button
+                type="button"
+                class="py-2 px-4 text-lg font-medium text-red-600 focus:outline-none"
+                @click="showModal = true"
+              >
+                Supprimer
+              </button>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
   </DashboardBase>
 </template>
 
 <script>
 import CustomLoader from "@/components/CustomLoader";
 import DashboardBase from "@/components/DashboardBase";
-import { QrcodeIcon, XCircleIcon, TrashIcon } from "@heroicons/vue/outline";
+import {
+  QrcodeIcon,
+  XCircleIcon,
+  TrashIcon,
+  PencilIcon,
+} from "@heroicons/vue/outline";
 import { HTTP } from "@/config/http-common";
 import VinylModal from "@/components/VinylModal";
 import BarcodeReader from "@/components/BarcodeReader";
+import VinylCoverModal from "@/components/VinylCoverModal";
 
 export default {
   name: "VinylForm",
   components: {
+    VinylCoverModal,
     VinylModal,
     CustomLoader,
     BarcodeReader,
@@ -174,18 +204,23 @@ export default {
     QrcodeIcon,
     XCircleIcon,
     TrashIcon,
+    PencilIcon,
   },
   data() {
     return {
       isEdit: false,
       showModal: false,
       showCamera: false,
+      showCoverModal: false,
       failedDelete: false,
       vinyl: {
         name: null,
         artist: null,
         releaseDate: null,
         description: null,
+        cover: null,
+        coverURL: null,
+        coverFile: null,
       },
       failedMessage: null,
     };
@@ -199,6 +234,22 @@ export default {
     closeModal() {
       this.failedDelete = false;
       this.showModal = false;
+    },
+    closeCoverModal(cover) {
+      this.showCoverModal = false;
+      this.updateCover(cover);
+    },
+    updateCover(cover) {
+      if (!cover) return;
+      if (cover instanceof File) {
+        this.vinyl.cover = URL.createObjectURL(cover);
+        this.vinyl.coverFile = cover;
+        this.vinyl.coverURL = null;
+      } else {
+        this.vinyl.cover = cover;
+        this.vinyl.coverURL = cover;
+        this.vinyl.coverFile = null;
+      }
     },
     async cameraClosed(barcode) {
       this.showCamera = false;
@@ -284,20 +335,32 @@ export default {
 
       this.$store.commit("enableLoading");
 
+      const headers = {
+        "Content-Type": "multipart/form-data",
+      };
+
+      const data = {
+        name: this.vinyl.name,
+        artist: this.vinyl.artist,
+        releaseDate:
+          this.vinyl.releaseDate?.length > 0
+            ? this.vinyl.releaseDate
+            : undefined,
+        description:
+          this.vinyl.description > 0 ? this.vinyl.description : undefined,
+        coverURL: this.vinyl.coverURL ?? undefined,
+        coverFile: this.vinyl.coverFile ?? undefined,
+      };
+
       // Submit the form
       try {
-        const data = {
-          name: this.vinyl.name,
-          artist: this.vinyl.artist,
-          releaseDate: this.vinyl.releaseDate,
-          description: this.vinyl.description,
-        };
-
         let res;
         if (this.isEdit) {
-          res = await HTTP.put("/vinyls/" + this.$route.params.id, data);
+          res = await HTTP.put("/vinyls/" + this.$route.params.id, data, {
+            headers,
+          });
         } else {
-          res = await HTTP.post("/vinyls", data);
+          res = await HTTP.post("/vinyls", data, { headers });
         }
 
         if (
