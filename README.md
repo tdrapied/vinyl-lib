@@ -5,11 +5,12 @@
 
 ## About
 
-Vinylib is a web application to manage your vinyl collection.
+Vinylib is a web application to manage your vinyl collection. It use this [api](https://github.com/tdrapied/api-vinylib).
 
 - Simple interface
 - Save your vinyls and search them
 - Scan barcodes to search for vinyls details with the [Discogs API](https://www.discogs.com/developers) (mobile only)
+- Add covers to your vinyl suggested by the [Spotify API](https://developer.spotify.com/documentation/web-api/) or from your own images
 
 ## Installation
 ```bash
@@ -26,3 +27,5 @@ cp .env.example .env
 ```bash
 npm run serve
 ```
+
+WEB: http://localhost:8080
